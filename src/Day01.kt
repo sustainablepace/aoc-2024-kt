@@ -1,21 +1,42 @@
+import kotlin.math.abs
+
 fun main() {
-    fun part1(input: List<String>): Int {
-        return input.size
+    fun part1(input: List<String>): Int = input.map { row ->
+        row.split("   ").map { entry ->
+            entry.toInt()
+        }
+    }.let { rows ->
+        (rows to rows).let { (l, r) ->
+            l.map { it.first() }.sorted() to
+            r.map { it.last() }.sorted()
+        }.let { (left, right) ->
+            left.zip(right).sumOf { (l, r) -> abs(l-r) }
+        }
     }
 
-    fun part2(input: List<String>): Int {
-        return input.size
+    fun part2(input: List<String>): Int = input.map { row ->
+        row.split("   ").map { entry ->
+            entry.toInt()
+        }
+    }.let { rows ->
+        (rows to rows).let { (l, r) ->
+            l.map { it.first() } to r.map { it.last() }
+        }.let { (left, right) ->
+            left.sumOf { leftEntry -> right.count { it == leftEntry } * leftEntry }
+        }
     }
-
-    // Test if implementation meets criteria from the description, like:
-    check(part1(listOf("test_input")) == 1)
 
     // Or read a large test input from the `src/Day01_test.txt` file:
     val testInput = readInput("Day01_test")
-    check(part1(testInput) == 1)
+    val testResult = part1(testInput)
+    println(testResult)
+    check(testResult == 11)
 
     // Read the input from the `src/Day01.txt` file.
     val input = readInput("Day01")
-    part1(input).println()
+    val result = part1(input)
+    println(result)
+    check(result == 1603498)
+
     part2(input).println()
 }
