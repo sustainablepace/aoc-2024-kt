@@ -8,28 +8,6 @@ fun List<Update>.addMiddleNumbers() = sumOf {
     it[index]
 }
 
-fun PageOrderingRules.findSuccessors(page: PageNumber): List<PageNumber> {
-    val successors = mutableListOf<PageNumber>()
-    val predecessors = mutableListOf<PageNumber>(page)
-    val alreadyChecked = mutableListOf<PageNumber>()
-    while (predecessors.isNotEmpty()) {
-        filter { (predecessor, _) ->
-            predecessors.contains(predecessor) && !alreadyChecked.contains(predecessor)
-        }.also {
-            predecessors.removeAll { true }
-        }.forEach { (predecessor, successor) ->
-            if (!successors.contains(successor)) {
-                successors.add(successor)
-            }
-            if (!predecessors.contains(successor)) {
-                predecessors.add(successor)
-            }
-            alreadyChecked.add(predecessor)
-        }
-    }
-    return successors.toList()
-}
-
 fun main() {
     fun part1(input: List<String>): Int = input.joinToString("\n").split("\n\n").let { (a, b) ->
         val pageOrderingRules = a.split("\n").map { it.split("|").map(String::toInt) }
